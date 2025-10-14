@@ -7,6 +7,18 @@
 
 import Foundation
 
-struct Country {
-    
+struct Country: Codable {
+    let cioc: String?
+    let region: String?
+    let subregion: String?
+    //let name: Name
+}
+
+struct Name: Codable {
+    let common: String?
+    let official: String?
+}
+
+struct Countries: Codable {
+    let countries: [Country]
 }

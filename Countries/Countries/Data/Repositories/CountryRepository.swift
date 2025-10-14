@@ -17,7 +17,7 @@ struct Api {
 }
 
 protocol restCountryAPIProtocol {
-    func getAllCountries() async
+    func getAllCountries() async -> Countries
 }
 
 class CountryRepository: restCountryAPIProtocol {
@@ -28,7 +28,7 @@ class CountryRepository: restCountryAPIProtocol {
         self.nservice = nservice
     }
     
-    func getAllCountries() async {
-        return await nservice.getAllCountries(url: URL(string: "\(Api.base)\(Api.routes.all)")!)
+    func getAllCountries() async -> Countries {
+        return await nservice.getAllCountries(url: URL(string: "\(Api.base)\(Api.routes.all)")!)!
     }
 }

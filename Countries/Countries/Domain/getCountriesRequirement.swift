@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GetCountriesRequirementProtocol {
-    func getCountries() async
+    func getCountries() async -> Countries
 }
 
 class GetCountriesRequirement: GetCountriesRequirementProtocol {
@@ -20,7 +20,7 @@ class GetCountriesRequirement: GetCountriesRequirementProtocol {
         self.dataRepository = dataRepository
     }
     
-    func getCountries() async {
+    func getCountries() async -> Countries {
         return await dataRepository.getAllCountries()
     }
 }

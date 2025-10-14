@@ -13,6 +13,8 @@ final class AllCountriesViewModel: ObservableObject {
     @Published var message: String = ""
     @Published var errorMessage: String = ""
     @Published var success: Bool = false
+    @Published var isLoading: Bool = true
+    @Published var countries = [Country]()
     
     var getCountriesRequirement: GetCountriesRequirementProtocol
 
@@ -23,6 +25,14 @@ final class AllCountriesViewModel: ObservableObject {
     @MainActor
     func getAllCountries() async {
         print("Obtaining countries...")
-        await getCountriesRequirement.getCountries()
+        let result = await getCountriesRequirement.getCountries()
+        if result == nil {
+            errorMessage = "Couldn't obtain countries"
+            success = false
+        }
+        else {
+            message = "Successfully got countries"
+            success = true
+        }
     }
 }

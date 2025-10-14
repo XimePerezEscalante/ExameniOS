@@ -12,17 +12,26 @@ struct APIService {
     // Singleton
     static let shared = APIService()
     
-    func getAllCountries(url: URL) async {
+    func getAllCountries(url: URL) async -> Countries? {
         
-        let taskRequest = AF.request(url, method: .get, encoding: JSONEncoding.default).validate()
+        let taskRequest = AF.request(url, method: .get, encoding: JSONEncoding.default).validate().cURLDescription { curl in
+            print("📡 cURL:\n\(curl)")
+        }
         let response = await taskRequest.serializingData().response
         print(url)
         switch response.result {
         case .success(let data):
             print("Successfully got all countries")
+            do {
+                return try JSONDecoder().decode(Countries.self, from: data)
+            } catch{
+                print("Error decoding: \(error)")
+                return nil
+            }
             
         case .failure(let error):
             print("Failure getting countries:", error.localizedDescription)
+            return nil
         }
     }
 }
