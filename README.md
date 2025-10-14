@@ -1,4 +1,4 @@
-# ExameniOS
+# Examen iOS
 
 *Nombre completo* Ximena Pérez Escalante
 
