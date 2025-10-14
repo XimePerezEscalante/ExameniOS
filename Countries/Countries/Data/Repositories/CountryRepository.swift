@@ -8,16 +8,16 @@
 import Foundation
 
 struct Api {
-    static let base = "https://restcountries.com/v3.1/"
+    static let base = "https://restcountries.com/v3.1"
     
     struct routes {
-        static let all = "/all?fields=name"
+        static let all = "/all?fields=name,region,subregion,cioc"
         static let name = "/name"
     }
 }
 
 protocol restCountryAPIProtocol {
-    func getAllCountries() async
+    func getAllCountries() async -> [Country]
 }
 
 class CountryRepository: restCountryAPIProtocol {
@@ -28,7 +28,7 @@ class CountryRepository: restCountryAPIProtocol {
         self.nservice = nservice
     }
     
-    func getAllCountries() async {
-        return await nservice.getAllCountries(url: URL(string: "\(Api.base)\(Api.routes.all)")!)
+    func getAllCountries() async -> [Country] {
+        return await nservice.getAllCountries(url: URL(string: "\(Api.base)\(Api.routes.all)")!)!
     }
 }
