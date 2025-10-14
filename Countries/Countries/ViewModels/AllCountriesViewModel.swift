@@ -15,6 +15,12 @@ final class AllCountriesViewModel: ObservableObject {
     @Published var success: Bool = false
     @Published var isLoading: Bool = true
     @Published var countries = [Country]()
+    @Published var totalCountries = 0
+    // Ordenarlos por continente (region)
+    @Published var europeanCountries = [Country]()
+    @Published var asianCountries = [Country]()
+    @Published var americanCountries = [Country]()
+    @Published var oceaniaCountries = [Country]()
     
     var getCountriesRequirement: GetCountriesRequirementProtocol
 
@@ -26,13 +32,35 @@ final class AllCountriesViewModel: ObservableObject {
     func getAllCountries() async {
         print("Obtaining countries...")
         let result = await getCountriesRequirement.getCountries()
-        if result == nil {
-            errorMessage = "Couldn't obtain countries"
+        
+        totalCountries = result.count
+        
+        for i in 0...totalCountries-1 {
+            //countries.append(result[i])
+            if result[i].region == "Europe" {
+                europeanCountries.append(result[i])
+            }
+            else if result[i].region == "America" {
+                americanCountries.append(result[i])
+            }
+            else if result[i].region == "Asia" {
+                asianCountries.append(result[i])
+            }
+            else if result[i].region == "Oceania" {
+                oceaniaCountries.append(result[i])
+            }
+        }
+        
+        if totalCountries <= 0 {
             success = false
+            isLoading = false
+            errorMessage = "Couldn't obtain countries"
+            
         }
         else {
-            message = "Successfully got countries"
             success = true
+            isLoading = false
+            message = "Successfully got countries"
         }
     }
 }

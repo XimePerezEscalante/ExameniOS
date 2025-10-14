@@ -24,11 +24,6 @@ struct AllCountries: View {
                     Text("Loading all countries...")
                         .font(.subheadline)
                 }
-                VStack{
-                    Text("countries")
-                }
-                Text("All Countries")
-                    .font(.title)
             }
         }.navigationTitle("Countries")
             .onAppear {
