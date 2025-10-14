@@ -8,10 +8,10 @@
 import Foundation
 
 struct Api {
-    static let base = "https://restcountries.com/v3.1/"
+    static let base = "https://restcountries.com/v3.1"
     
     struct routes {
-        static let all = "/all?fields=name"
+        static let all = "/all?fields=name,region,subregion,cioc"
         static let name = "/name"
     }
 }

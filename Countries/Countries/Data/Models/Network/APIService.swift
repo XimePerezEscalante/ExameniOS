@@ -16,7 +16,7 @@ struct APIService {
         
         let taskRequest = AF.request(url, method: .get, encoding: JSONEncoding.default).validate()
         let response = await taskRequest.serializingData().response
-        
+        print(url)
         switch response.result {
         case .success(let data):
             print("Successfully got all countries")
