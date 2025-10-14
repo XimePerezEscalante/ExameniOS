@@ -23,6 +23,13 @@ final class AllCountriesViewModel: ObservableObject {
     @Published var americanCountries = [Country]()
     @Published var oceaniaCountries = [Country]()
     
+    // Toggle para ver países
+    @Published var viewAfrica: Bool = false
+    @Published var viewAsia: Bool = false
+    @Published var viewAmericas: Bool = false
+    @Published var viewOceania: Bool = false
+    @Published var viewEurope: Bool = false
+    
     var getCountriesRequirement: GetCountriesRequirementProtocol
 
     init(getCountriesRequirement: GetCountriesRequirementProtocol = GetCountriesRequirement.shared) {
@@ -45,7 +52,7 @@ final class AllCountriesViewModel: ObservableObject {
             else if result[i].region == "Europe" {
                 europeanCountries.append(result[i])
             }
-            else if result[i].region == "America" {
+            else if result[i].region == "Americas" {
                 americanCountries.append(result[i])
             }
             else if result[i].region == "Asia" {
