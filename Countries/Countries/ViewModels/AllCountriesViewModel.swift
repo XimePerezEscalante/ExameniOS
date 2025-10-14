@@ -17,6 +17,7 @@ final class AllCountriesViewModel: ObservableObject {
     @Published var countries = [Country]()
     @Published var totalCountries = 0
     // Ordenarlos por continente (region)
+    @Published var africanCountries = [Country]()
     @Published var europeanCountries = [Country]()
     @Published var asianCountries = [Country]()
     @Published var americanCountries = [Country]()
@@ -31,13 +32,17 @@ final class AllCountriesViewModel: ObservableObject {
     @MainActor
     func getAllCountries() async {
         print("Obtaining countries...")
-        let result = await getCountriesRequirement.getCountries()
+        var result = await getCountriesRequirement.getCountries()
         
         totalCountries = result.count
         
         for i in 0...totalCountries-1 {
+            result[i].id = UUID()
             //countries.append(result[i])
-            if result[i].region == "Europe" {
+            if result[i].region == "Africa" {
+                africanCountries.append(result[i])
+            }
+            else if result[i].region == "Europe" {
                 europeanCountries.append(result[i])
             }
             else if result[i].region == "America" {
