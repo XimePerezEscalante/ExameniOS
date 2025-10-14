@@ -12,6 +12,7 @@ struct AllCountries: View {
     var body: some View {
         NavigationStack {
             VStack {
+                // Seccion de mensajes de error o success
                 Section {
                     if !vm.errorMessage.isEmpty {
                         ErrorMessage(message: vm.errorMessage)
