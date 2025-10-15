@@ -24,7 +24,6 @@ final class AllCountriesViewModel: ObservableObject {
     @Published var asianCountries = [Country]()
     @Published var americanCountries = [Country]()
     @Published var oceaniaCountries = [Country]()
-    
     // Toggle para ver países
     @Published var viewAll: Bool = false
     @Published var viewAfrica: Bool = false
@@ -32,9 +31,9 @@ final class AllCountriesViewModel: ObservableObject {
     @Published var viewAmericas: Bool = false
     @Published var viewOceania: Bool = false
     @Published var viewEurope: Bool = false
-    
+    // Toggle para ver historial y respuestas a los requisitos del examen
     @Published var togglePreguntas: Bool = false
-    
+    @Published var toggleHistory: Bool = false
     // Buscar pais
     @Published var filteredCountries = [Country]()
     @Published var countrySearch: String = ""
@@ -47,6 +46,12 @@ final class AllCountriesViewModel: ObservableObject {
         self.getCountriesRequirement = getCountriesRequirement
     }
     
+    /*
+     Funcion la search bar, donde se borra los elementos anteriores del arreglo y se filtran
+     los paises que tengan lo que busco el usuario.
+     Parametros: name: String - Texto de la search bar
+     Return: NA
+     */
     func searchCountries(name: String) {
         filteredCountries.removeAll()
         let matches = countries.filter { $0.name.common?.contains(name) == true }
@@ -57,15 +62,6 @@ final class AllCountriesViewModel: ObservableObject {
             filteredCountries = matches
             
         }
-        /*if countries.filter { $0.name.common!.contains(name)} {
-            filteredCountries.removeAll()
-            filteredCountries.append(countries.first(where: { $0.name.common! == name})!)
-        }
-        else {
-            errorMessage = "No country named '\(name)'"
-        }*/
-           
-        
     }
     
     @MainActor

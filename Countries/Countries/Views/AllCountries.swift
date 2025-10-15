@@ -247,11 +247,16 @@ struct AllCountries: View {
                         VStack {
                             Text(vm.respuestas)
                                 .padding()
-                                .background(.thinMaterial)
                                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         }
                     }
-                    
+                    if vm.toggleHistory {
+                        VStack {
+                            Text(lastSeenCountry)
+                                .padding()
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        }
+                    }
                     HStack {
                         Button {
                             vm.togglePreguntas.toggle()
@@ -266,12 +271,10 @@ struct AllCountries: View {
                             .multilineTextAlignment(.leading)
                                 
                         Button {
-                            Text(lastSeenCountry)
-                                .font(.caption)
-                                .background(.thinMaterial)
+                            vm.toggleHistory.toggle()
                         } label: {
-                                    Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
-                                        .font(.title3)
+                                Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
+                                    .font(.title3)
                         }
                     }
                 }
