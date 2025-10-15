@@ -15,6 +15,7 @@ struct Country: Identifiable, Codable {
     let name: Name
     let capital: [String]?
     let languages: [String: String]?
+    let flag: String?
 }
 
 struct Name: Codable {

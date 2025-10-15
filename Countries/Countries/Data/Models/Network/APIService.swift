@@ -14,9 +14,7 @@ struct APIService {
     
     func getAllCountries(url: URL) async -> [Country]? {
         
-        let taskRequest = AF.request(url, method: .get, encoding: JSONEncoding.default).validate().cURLDescription { curl in
-            print("📡 cURL:\n\(curl)")
-        }
+        let taskRequest = AF.request(url, method: .get, encoding: JSONEncoding.default).validate()
         let response = await taskRequest.serializingData().response
         print(url)
         switch response.result {
@@ -35,15 +33,8 @@ struct APIService {
         }
     }
     func getCountry(url: URL) async -> [Country]? {
-        /*let parameters: Parameters = [
-            "name": name
-        ]*/
-            
-        //print("name: \(name)")
         
-        let taskRequest = AF.request(url, method: .get, encoding: JSONEncoding.default).validate().cURLDescription { curl in
-            print("📡 cURL:\n\(curl)")
-        }
+        let taskRequest = AF.request(url, method: .get, encoding: JSONEncoding.default).validate()
         let response = await taskRequest.serializingData().response
         print(url)
         switch response.result {
