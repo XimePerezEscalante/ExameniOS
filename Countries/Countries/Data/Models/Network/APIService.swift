@@ -34,4 +34,31 @@ struct APIService {
             return nil
         }
     }
+    func getCountry(url: URL) async -> [Country]? {
+        /*let parameters: Parameters = [
+            "name": name
+        ]*/
+            
+        //print("name: \(name)")
+        
+        let taskRequest = AF.request(url, method: .get, encoding: JSONEncoding.default).validate().cURLDescription { curl in
+            print("📡 cURL:\n\(curl)")
+        }
+        let response = await taskRequest.serializingData().response
+        print(url)
+        switch response.result {
+            case .success(let data):
+                print("Successfully got country")
+                do {
+                    return try JSONDecoder().decode([Country].self, from: data)
+                } catch{
+                    print("Error decoding: \(error)")
+                    return nil
+                }
+                
+            case .failure(let error):
+                print("Failure getting country:", error.localizedDescription)
+                return nil
+            }
+        }
 }

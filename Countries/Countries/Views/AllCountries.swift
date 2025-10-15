@@ -15,6 +15,14 @@ struct AllCountries: View {
         NavigationStack {
             ScrollView {
                 VStack {
+                    Text("Countries of the world")
+                        .font(.largeTitle)
+                        .bold()
+                    Text("🌍")
+                        .font(.largeTitle)
+                }.padding()
+                
+                VStack {
                     // Seccion de mensajes de error o success
                     Section {
                         if !vm.errorMessage.isEmpty {
@@ -27,6 +35,14 @@ struct AllCountries: View {
                     if vm.isLoading == true {
                         Text("Loading all countries...")
                             .font(.subheadline)
+                    }
+                    VStack {
+                        Text("Select a continent and a country to know more about them.")
+                            .font(.callout)
+                            .foregroundStyle(.white)
+                            .padding(20)
+                            .cornerRadius(10)
+                            .background(.blue)
                     }
                     VStack(alignment: .leading, spacing: 10) {
                         // Seccion de Africa
@@ -135,13 +151,13 @@ struct AllCountries: View {
                                         .background(.white)
                                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                                         .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
-                                }.background(.clear)
+                                }
                             }
                             
                         }
                     }
-                }.background(Color(red: 0.839,green: 0.957, blue: 1.000, opacity: 0.05))
-            }.background(Color(red: 0.839,green: 0.957, blue: 1.000, opacity: 0.05))
+                }
+            }
         }.padding(20)
             .background(Color(red: 0.839,green: 0.957, blue: 1.000))
             .navigationTitle("Countries")

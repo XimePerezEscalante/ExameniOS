@@ -13,6 +13,8 @@ struct Country: Identifiable, Codable {
     let region: String?
     let subregion: String?
     let name: Name
+    let capital: [String]?
+    let languages: [String: String]?
 }
 
 struct Name: Codable {
