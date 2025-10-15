@@ -55,10 +55,6 @@ final class AllCountriesViewModel: ObservableObject {
             errorMessage = "No countries named '\(name)'"
         } else {
             filteredCountries = matches
-            for i in 0...matches.count-1 {
-                print(matches[i].name.common!)
-                print(matches[i].name.official)
-            }
             
         }
         /*if countries.filter { $0.name.common!.contains(name)} {

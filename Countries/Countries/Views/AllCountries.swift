@@ -266,11 +266,9 @@ struct AllCountries: View {
                             .multilineTextAlignment(.leading)
                                 
                         Button {
-                            let match = vm.countries { $0.name.official == (lastSeenCountry) }
-                            NavigationLink(destination: CountryDetail(country: country)) {
-                                Text(country.name.common!)
-                                    .foregroundStyle(.black)
-                            }
+                            Text(lastSeenCountry)
+                                .font(.caption)
+                                .background(.thinMaterial)
                         } label: {
                                     Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
                                         .font(.title3)
