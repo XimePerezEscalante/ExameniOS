@@ -18,18 +18,25 @@ struct AllCountries: View {
                     Text("Countries of the world")
                         .font(.largeTitle)
                         .bold()
+                        .padding(.top, 8)
                     Text("🌍")
                         .font(.largeTitle)
-                }.padding()
+                }
                 
                 VStack {
                     // Seccion de mensajes de error o success
                     Section {
                         if !vm.errorMessage.isEmpty {
                             ErrorMessage(message: vm.errorMessage)
+                                .onTapGesture {
+                                    vm.errorMessage = ""
+                                }
                         }
                         if !vm.message.isEmpty {
                             SuccessMessage(message: vm.message)
+                                .onTapGesture {
+                                    vm.message = ""
+                                }
                         }
                     }
                     
@@ -38,22 +45,22 @@ struct AllCountries: View {
                             .font(.subheadline)
                     }
                     
-                    VStack {
-                        Text("Select a continent and a country to know more about them.")
-                            .font(.callout)
-                            .foregroundStyle(.white)
-                            .padding(20)
-                            .background(.blue)
-                            .cornerRadius(10)
-                    }.padding(.bottom, 20)
                     
                     VStack(alignment: .leading, spacing: 10) {
                         TextField("Search", text: $vm.countrySearch)
                             .textFieldStyle(.roundedBorder)
+                            .onTapGesture {
+                                vm.filteredCountries = []
+                            }
                             .onSubmit {
                                 vm.searchCountries(name: vm.countrySearch)
                                 vm.countrySearch = ""
-                        }
+                            }
+                        VStack {
+                            Text("You can browse countries by their continent or view them all at once.")
+                                .font(.callout)
+                                .foregroundStyle(.gray)
+                        }.padding(.bottom, 20)
                         
                         if vm.filteredCountries.count > 0 {
                             ForEach(vm.filteredCountries) { country in
@@ -73,6 +80,11 @@ struct AllCountries: View {
                                 if !vm.countries.isEmpty {
                                     Text("All")
                                         .font(.title2)
+                                        .padding()
+                                        .foregroundStyle(.white)
+                                        .background(.black)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
                                         .onTapGesture {
                                             vm.viewAll.toggle()
                                         }
@@ -95,6 +107,11 @@ struct AllCountries: View {
                                 if !vm.africanCountries.isEmpty {
                                     Text("Africa")
                                         .font(.title2)
+                                        .padding()
+                                        .foregroundStyle(.white)
+                                        .background(.black)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
                                         .onTapGesture {
                                             vm.viewAfrica.toggle()
                                         }
@@ -117,6 +134,11 @@ struct AllCountries: View {
                                 if !vm.americanCountries.isEmpty {
                                     Text("Americas")
                                         .font(.title2)
+                                        .padding()
+                                        .foregroundStyle(.white)
+                                        .background(.black)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
                                         .onTapGesture {
                                             vm.viewAmericas.toggle()
                                         }
@@ -139,6 +161,11 @@ struct AllCountries: View {
                                 if !vm.asianCountries.isEmpty {
                                     Text("Asia")
                                         .font(.title2)
+                                        .padding()
+                                        .foregroundStyle(.white)
+                                        .background(.black)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
                                         .onTapGesture {
                                             vm.viewAsia.toggle()
                                         }
@@ -161,6 +188,11 @@ struct AllCountries: View {
                                 if !vm.europeanCountries.isEmpty {
                                     Text("Europa")
                                         .font(.title2)
+                                        .padding()
+                                        .foregroundStyle(.white)
+                                        .background(.black)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
                                         .onTapGesture {
                                             vm.viewEurope.toggle()
                                         }
@@ -183,6 +215,11 @@ struct AllCountries: View {
                                 if !vm.oceaniaCountries.isEmpty {
                                     Text("Oceania")
                                         .font(.title2)
+                                        .padding()
+                                        .foregroundStyle(.white)
+                                        .background(.black)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
                                         .onTapGesture {
                                             vm.viewOceania.toggle()
                                         }
@@ -201,20 +238,30 @@ struct AllCountries: View {
                                     }
                                     
                                 }
-                            }.
+                            }
                         }
                     }
-                }
+                }.padding(20)
+                Image(systemName: "")
+                    .resizable()
+                    .frame(width: 250, height: 250)
+                Text("Tap the following button to go to your last viewed country:")
+                Image(systemName: "")
+                    .resizable()
+                    .frame(width: 250, height: 250)
+                     
             }
-        }.padding(20)
-            .background(Color(red: 0.839,green: 0.957, blue: 1.000))
-            .navigationTitle("Countries")
+        }.padding()
+            .background(.ultraThickMaterial)
+            .onTapGesture {
+                vm.filteredCountries.removeAll()
+            }
             .onAppear {
-                Task {
-                    await vm.getAllCountries()
-                    vm.message = ""
-                }
+            Task {
+                await vm.getAllCountries()
+                vm.message = ""
             }
+        }
     }
 }
 

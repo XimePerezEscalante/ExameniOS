@@ -12,6 +12,7 @@ final class CountryViewModel: ObservableObject {
     @Published var message: String = ""
     @Published var errorMessage: String = ""
     @Published var country: Country? = nil
+    @Published var isLoading: Bool = true
     
     var getCountryRequirement: GetCountryRequirementProtocol
 
@@ -22,6 +23,21 @@ final class CountryViewModel: ObservableObject {
     @MainActor
     func getDetail(name: String) async -> Country? {
         let result = await getCountryRequirement.getCountry(name: name)
-        return result[0]
+        if result.count == 0 {
+            isLoading = false
+            errorMessage = "Could not get details :( Please tap to try again"
+            return nil
+        }
+        else {
+            isLoading = false
+            let match = result.filter { $0.name.official == (name) }
+            if !match.isEmpty {
+                return match[0]
+            }
+            else {
+                errorMessage = "Could not get details :( Please tap to try again"
+                return nil
+            }
+        }
     }
 }

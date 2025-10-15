@@ -10,10 +10,12 @@ internal import Combine
 
 final class AllCountriesViewModel: ObservableObject {
     
+    // Manejo de estados
     @Published var message: String = ""
     @Published var errorMessage: String = ""
     @Published var success: Bool = false
     @Published var isLoading: Bool = true
+    // Ttodos los paises
     @Published var countries = [Country]()
     @Published var totalCountries = 0
     // Ordenarlos por continente (region)
@@ -42,7 +44,28 @@ final class AllCountriesViewModel: ObservableObject {
     }
     
     func searchCountries(name: String) {
-        filteredCountries.append(countries.first { $0.name.common! == name}!)
+        filteredCountries.removeAll()
+        let matches = countries.filter { $0.name.common?.contains(name) == true }
+
+        if matches.isEmpty {
+            errorMessage = "No countries named '\(name)'"
+        } else {
+            filteredCountries = matches
+            for i in 0...matches.count-1 {
+                print(matches[i].name.common!)
+                print(matches[i].name.official)
+            }
+            
+        }
+        /*if countries.filter { $0.name.common!.contains(name)} {
+            filteredCountries.removeAll()
+            filteredCountries.append(countries.first(where: { $0.name.common! == name})!)
+        }
+        else {
+            errorMessage = "No country named '\(name)'"
+        }*/
+           
+        
     }
     
     @MainActor
