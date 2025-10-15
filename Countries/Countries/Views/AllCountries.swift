@@ -32,128 +32,176 @@ struct AllCountries: View {
                             SuccessMessage(message: vm.message)
                         }
                     }
+                    
                     if vm.isLoading == true {
                         Text("Loading all countries...")
                             .font(.subheadline)
                     }
+                    
                     VStack {
                         Text("Select a continent and a country to know more about them.")
                             .font(.callout)
                             .foregroundStyle(.white)
                             .padding(20)
-                            .cornerRadius(10)
                             .background(.blue)
-                    }
+                            .cornerRadius(10)
+                    }.padding(.bottom, 20)
+                    
                     VStack(alignment: .leading, spacing: 10) {
-                        // Seccion de Africa
-                        if !vm.africanCountries.isEmpty {
-                            Text("Africa")
-                                .font(.title2)
-                                .onTapGesture {
-                                    vm.viewAfrica.toggle()
-                                }
-                            if vm.viewAfrica {
-                                ForEach(vm.africanCountries) { country in
-                                    VStack(spacing: 8) {
-                                        NavigationLink(destination: CountryDetail(country: country)) {
-                                            Text(country.name.common!)
-                                                .foregroundStyle(.black)
-                                        }
-                                    }.padding()
-                                        .background(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
-                                }
-                            }
-                            
+                        TextField("Search", text: $vm.countrySearch)
+                            .textFieldStyle(.roundedBorder)
+                            .onSubmit {
+                                vm.searchCountries(name: vm.countrySearch)
+                                vm.countrySearch = ""
                         }
-                        // Seccion de America
-                        if !vm.americanCountries.isEmpty {
-                            Text("Americas")
-                                .font(.title2)
-                                .onTapGesture {
-                                    vm.viewAmericas.toggle()
-                                }
-                            if vm.viewAmericas {
-                                ForEach(vm.americanCountries) { country in
-                                    VStack(spacing: 8) {
-                                        NavigationLink(destination: CountryDetail(country: country)) {
-                                            Text(country.name.common!)
-                                                .foregroundStyle(.black)
-                                        }
-                                    }.padding()
-                                        .background(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
-                                }
+                        
+                        if vm.filteredCountries.count > 0 {
+                            ForEach(vm.filteredCountries) { country in
+                                VStack(spacing: 8) {
+                                    NavigationLink(destination: CountryDetail(country: country)) {
+                                        Text(country.name.common!)
+                                            .foregroundStyle(.black)
+                                    }
+                                }.padding()
+                                    .background(.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                    .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
                             }
-                            
                         }
-                        // Seccion de Asia
-                        if !vm.asianCountries.isEmpty {
-                            Text("Asia")
-                                .font(.title2)
-                                .onTapGesture {
-                                    vm.viewAsia.toggle()
-                                }
-                            if vm.viewAsia {
-                                ForEach(vm.asianCountries) { country in
-                                    VStack(spacing: 8) {
-                                        NavigationLink(destination: CountryDetail(country: country)) {
-                                            Text(country.name.common!)
-                                                .foregroundStyle(.black)
+                        else {
+                            if vm.totalCountries > 0 {
+                                if !vm.countries.isEmpty {
+                                    Text("All")
+                                        .font(.title2)
+                                        .onTapGesture {
+                                            vm.viewAll.toggle()
                                         }
-                                    }.padding()
-                                        .background(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
-                                }
-                            }
-                            
-                        }
-                        // Seccion de Europa
-                        if !vm.europeanCountries.isEmpty {
-                            Text("Europa")
-                                .font(.title2)
-                                .onTapGesture {
-                                    vm.viewEurope.toggle()
-                                }
-                            if vm.viewEurope {
-                                ForEach(vm.europeanCountries) { country in
-                                    VStack(spacing: 8) {
-                                        NavigationLink(destination: CountryDetail(country: country)) {
-                                            Text(country.name.common!)
-                                                .foregroundStyle(.black)
+                                    if vm.viewAll == true {
+                                        ForEach(vm.countries) { country in
+                                            VStack(spacing: 8) {
+                                                NavigationLink(destination: CountryDetail(country: country)) {
+                                                    Text(country.name.common!)
+                                                        .foregroundStyle(.black)
+                                                }
+                                            }.padding()
+                                                .background(.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                                .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
                                         }
-                                    }.padding()
-                                        .background(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
+                                    }
                                 }
-                            }
-                            
-                        }
-                        // Seccion de Oceania
-                        if !vm.oceaniaCountries.isEmpty {
-                            Text("Oceania")
-                                .font(.title2)
-                                .onTapGesture {
-                                    vm.viewOceania.toggle()
-                                }
-                            if vm.viewOceania {
-                                ForEach(vm.oceaniaCountries) { country in
-                                    VStack {
-                                        NavigationLink(destination: CountryDetail(country: country)) {
-                                            Text(country.name.common!)
-                                                .foregroundStyle(.black)
+                                
+                                // Seccion de Africa
+                                if !vm.africanCountries.isEmpty {
+                                    Text("Africa")
+                                        .font(.title2)
+                                        .onTapGesture {
+                                            vm.viewAfrica.toggle()
                                         }
-                                    }.padding()
-                                        .background(.white)
-                                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
+                                    if vm.viewAfrica {
+                                        ForEach(vm.africanCountries) { country in
+                                            VStack(spacing: 8) {
+                                                NavigationLink(destination: CountryDetail(country: country)) {
+                                                    Text(country.name.common!)
+                                                        .foregroundStyle(.black)
+                                                }
+                                            }.padding()
+                                                .background(.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                                .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
+                                        }
+                                    }
+                                    
                                 }
-                            }
-                            
+                                // Seccion de America
+                                if !vm.americanCountries.isEmpty {
+                                    Text("Americas")
+                                        .font(.title2)
+                                        .onTapGesture {
+                                            vm.viewAmericas.toggle()
+                                        }
+                                    if vm.viewAmericas {
+                                        ForEach(vm.americanCountries) { country in
+                                            VStack(spacing: 8) {
+                                                NavigationLink(destination: CountryDetail(country: country)) {
+                                                    Text(country.name.common!)
+                                                        .foregroundStyle(.black)
+                                                }
+                                            }.padding()
+                                                .background(.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                                .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
+                                        }
+                                    }
+                                    
+                                }
+                                // Seccion de Asia
+                                if !vm.asianCountries.isEmpty {
+                                    Text("Asia")
+                                        .font(.title2)
+                                        .onTapGesture {
+                                            vm.viewAsia.toggle()
+                                        }
+                                    if vm.viewAsia {
+                                        ForEach(vm.asianCountries) { country in
+                                            VStack(spacing: 8) {
+                                                NavigationLink(destination: CountryDetail(country: country)) {
+                                                    Text(country.name.common!)
+                                                        .foregroundStyle(.black)
+                                                }
+                                            }.padding()
+                                                .background(.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                                .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
+                                        }
+                                    }
+                                    
+                                }
+                                // Seccion de Europa
+                                if !vm.europeanCountries.isEmpty {
+                                    Text("Europa")
+                                        .font(.title2)
+                                        .onTapGesture {
+                                            vm.viewEurope.toggle()
+                                        }
+                                    if vm.viewEurope {
+                                        ForEach(vm.europeanCountries) { country in
+                                            VStack(spacing: 8) {
+                                                NavigationLink(destination: CountryDetail(country: country)) {
+                                                    Text(country.name.common!)
+                                                        .foregroundStyle(.black)
+                                                }
+                                            }.padding()
+                                                .background(.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                                .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
+                                        }
+                                    }
+                                    
+                                }
+                                // Seccion de Oceania
+                                if !vm.oceaniaCountries.isEmpty {
+                                    Text("Oceania")
+                                        .font(.title2)
+                                        .onTapGesture {
+                                            vm.viewOceania.toggle()
+                                        }
+                                    if vm.viewOceania {
+                                        ForEach(vm.oceaniaCountries) { country in
+                                            VStack {
+                                                NavigationLink(destination: CountryDetail(country: country)) {
+                                                    Text(country.name.common!)
+                                                        .foregroundStyle(.black)
+                                                }
+                                            }.padding()
+                                                .background(.white)
+                                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                                .shadow(color: .black.opacity(0.1), radius: 4, x: 2, y: 2)
+                                        }
+                                    }
+                                    
+                                }
+                            }.
                         }
                     }
                 }
@@ -164,6 +212,7 @@ struct AllCountries: View {
             .onAppear {
                 Task {
                     await vm.getAllCountries()
+                    vm.message = ""
                 }
             }
     }

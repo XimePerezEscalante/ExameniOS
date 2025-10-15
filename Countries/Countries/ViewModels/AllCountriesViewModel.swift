@@ -24,16 +24,25 @@ final class AllCountriesViewModel: ObservableObject {
     @Published var oceaniaCountries = [Country]()
     
     // Toggle para ver países
+    @Published var viewAll: Bool = false
     @Published var viewAfrica: Bool = false
     @Published var viewAsia: Bool = false
     @Published var viewAmericas: Bool = false
     @Published var viewOceania: Bool = false
     @Published var viewEurope: Bool = false
     
+    // Buscar pais
+    @Published var filteredCountries = [Country]()
+    @Published var countrySearch: String = ""
+    
     var getCountriesRequirement: GetCountriesRequirementProtocol
 
     init(getCountriesRequirement: GetCountriesRequirementProtocol = GetCountriesRequirement.shared) {
         self.getCountriesRequirement = getCountriesRequirement
+    }
+    
+    func searchCountries(name: String) {
+        filteredCountries.append(countries.first { $0.name.common! == name}!)
     }
     
     @MainActor
@@ -45,7 +54,8 @@ final class AllCountriesViewModel: ObservableObject {
         
         for i in 0...totalCountries-1 {
             result[i].id = UUID()
-            //countries.append(result[i])
+            
+            countries.append(result[i])
             if result[i].region == "Africa" {
                 africanCountries.append(result[i])
             }
