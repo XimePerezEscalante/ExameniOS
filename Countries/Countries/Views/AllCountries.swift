@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AllCountries: View {
     @StateObject var vm = AllCountriesViewModel()
-    
-    
+    @AppStorage("lastSeenCountry") private var lastSeenCountry: String = ""
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -242,13 +242,41 @@ struct AllCountries: View {
                         }
                     }
                 }.padding(20)
-                Image(systemName: "")
-                    .resizable()
-                    .frame(width: 250, height: 250)
-                Text("Tap the following button to go to your last viewed country:")
-                Image(systemName: "")
-                    .resizable()
-                    .frame(width: 250, height: 250)
+                Section {
+                    if vm.togglePreguntas {
+                        VStack {
+                            Text(vm.respuestas)
+                                .padding()
+                                .background(.thinMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        }
+                    }
+                    
+                    HStack {
+                        Button {
+                            vm.togglePreguntas.toggle()
+                        } label: {
+                            Image(systemName: "questionmark.message")
+                                .font(.title3)
+                        }
+                                
+                        Text("Tap the following button to go to your last viewed country:")
+                            .font(.footnote)
+                            .foregroundStyle(.gray)
+                            .multilineTextAlignment(.leading)
+                                
+                        Button {
+                            let match = vm.countries { $0.name.official == (lastSeenCountry) }
+                            NavigationLink(destination: CountryDetail(country: country)) {
+                                Text(country.name.common!)
+                                    .foregroundStyle(.black)
+                            }
+                        } label: {
+                                    Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
+                                        .font(.title3)
+                        }
+                    }
+                }
                      
             }
         }.padding()

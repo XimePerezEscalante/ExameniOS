@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("lastSeenCountry") private var lastSeenCountry: String = ""
     var body: some View {
         AllCountries()
     }

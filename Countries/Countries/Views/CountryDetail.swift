@@ -10,6 +10,7 @@ import SwiftUI
 struct CountryDetail: View {
     @State var country: Country
     @StateObject var vm = CountryViewModel()
+    @AppStorage("lastSeenCountry") private var lastSeenCountry: String = ""
     
     var body: some View {
         NavigationStack {
@@ -97,6 +98,7 @@ struct CountryDetail: View {
                 .onAppear() {
                     Task {
                         country = await vm.getDetail(name: country.name.official!)!
+                        lastSeenCountry = country.name.official!
                     }
                 }
         }

@@ -33,9 +33,13 @@ final class AllCountriesViewModel: ObservableObject {
     @Published var viewOceania: Bool = false
     @Published var viewEurope: Bool = false
     
+    @Published var togglePreguntas: Bool = false
+    
     // Buscar pais
     @Published var filteredCountries = [Country]()
     @Published var countrySearch: String = ""
+    
+    let respuestas = "Arquitectura elegida: (MVVM + Clean)\nInterfaz de dominio real de tu repo: CountryRepository\nEstrategia de guardado de preferencias:\n En el ContentView se encuentra el AppStorage, donde se guarda el nombre del último país que el usuario consultó y cuando da clic al botón de historial, ahí se encuentra.\nEstrategia de búsqueda: En el VM hay un arreglo con el país que coincida con el nombre que se buscó, sólo si tiene algún elemento, se muestra el país."
     
     var getCountriesRequirement: GetCountriesRequirementProtocol
 
